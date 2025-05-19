@@ -1,0 +1,593 @@
+/* Base Styles */
+:root {
+    --primary-color: #5578ff;
+    --secondary-color: #8a57ff;
+    --background-color: #0a0a12;
+    --text-color: #e0e0e0;
+    --matrix-color: rgba(85, 120, 255, 0.1);
+    --terminal-bg: rgba(10, 10, 20, 0.95);
+    --button-hover: rgba(85, 120, 255, 0.3);
+    --font-mono: 'Ubuntu Mono', 'Courier New', monospace;
+    --transition-speed: 0.3s;
+    --error-color: #ff5555;
+    --success-color: #55ff55;
+    --kali-purple: #8a57ff;
+    --kali-blue: #5578ff;
+    --code-bg: #1e1e2e;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-mono);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    overflow-x: hidden;
+    height: 100vh;
+    position: relative;
+    line-height: 1.6;
+}
+
+.matrix-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: -1;
+    overflow: hidden;
+}
+
+/* Matrix animation */
+.matrix-background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom,
+            transparent,
+            var(--matrix-color) 50%,
+            transparent);
+    background-size: 100% 8px;
+    animation: matrixFall 10s linear infinite;
+}
+
+@keyframes matrixFall {
+    from {
+        transform: translateY(-100%);
+    }
+
+    to {
+        transform: translateY(100vh);
+    }
+}
+
+.overlay {
+    position: relative;
+    z-index: 1;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+}
+
+.kali-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.kali-logo {
+    height: 50px;
+    filter: drop-shadow(0 0 5px var(--kali-purple));
+}
+
+/* Typography */
+h1.typing-text {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--kali-purple);
+    text-shadow: 0 0 5px var(--kali-purple);
+    position: relative;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+.kali-header p {
+    font-family: 'Courier New', Courier, monospace;
+    color: #00ffea;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 0;
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+  
+  .kali-header p span {
+    color: #ffffff;
+    font-weight: bold;
+    background: #00ffea;
+    color: #000;
+    padding: 2px 6px;
+    border-radius: 4px;
+    box-shadow: 0 0 5px #00ffea;
+  }
+  
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px var(--kali-purple);
+    }
+
+    to {
+        text-shadow: 0 0 10px var(--kali-purple), 0 0 20px var(--kali-blue);
+    }
+}
+
+h2.subheading {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+}
+
+.username {
+    color: var(--kali-purple);
+    text-shadow: 0 0 5px var(--kali-purple);
+}
+
+.dynamic-role {
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+    color: var(--kali-blue);
+    min-height: 2rem;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Buttons */
+.buttons,
+.tools {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+button {
+    background: rgba(20, 20, 40, 0.8);
+    color: var(--text-color);
+    border: 1px solid var(--kali-purple);
+    padding: 0.8rem 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    border-radius: 4px;
+    text-shadow: 0 0 5px var(--kali-purple);
+    box-shadow: 0 0 10px rgba(138, 87, 255, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+button:hover {
+    background-color: var(--button-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(138, 87, 255, 0.4);
+    border-color: var(--kali-blue);
+}
+
+button i {
+    font-size: 1.1em;
+}
+
+/* Output Window */
+.output-window {
+    width: 100%;
+    min-height: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: var(--terminal-bg);
+    border: 1px solid var(--kali-purple);
+    padding: 0;
+    margin-bottom: 2rem;
+    text-align: left;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    box-shadow: inset 0 0 10px rgba(138, 87, 255, 0.2);
+    border-radius: 6px;
+    color: var(--text-color);
+    position: relative;
+}
+
+.terminal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(90deg, var(--kali-purple), var(--kali-blue));
+    color: white;
+    font-weight: bold;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.terminal-controls button {
+    padding: 0.2rem 0.5rem;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    color: white;
+}
+
+.terminal-controls button:hover {
+    color: var(--text-color);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.terminal-content {
+    padding: 1rem;
+    font-family: var(--font-mono);
+    min-height: 150px;
+}
+
+.output-window::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent,
+            var(--kali-blue),
+            transparent);
+    animation: scanline 3s linear infinite;
+}
+
+@keyframes scanline {
+    0% {
+        top: 0;
+    }
+
+    100% {
+        top: 100%;
+    }
+}
+
+/* CMD Interface */
+.cmd-interface {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 800px;
+    background-color: var(--terminal-bg);
+    border: 2px solid var(--kali-purple);
+    box-shadow: 0 0 20px rgba(138, 87, 255, 0.5);
+    z-index: 100;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.cmd-interface.active {
+    display: block;
+}
+
+.cmd-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    background: linear-gradient(90deg, var(--kali-purple), var(--kali-blue));
+    color: white;
+    font-weight: bold;
+}
+
+.cmd-controls button {
+    padding: 0.2rem 0.5rem;
+    margin-left: 0.5rem;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    box-shadow: none;
+}
+
+.cmd-controls button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.cmd-window {
+    padding: 1.5rem;
+}
+
+#cmdOutput {
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    white-space: pre-wrap;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    min-height: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+}
+
+.cmd-input-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.prompt {
+    color: var(--kali-purple);
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.path {
+    color: var(--kali-blue);
+}
+
+#cmdInput {
+    flex: 1;
+    padding: 0.8rem;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 1px solid var(--kali-purple);
+    color: var(--text-color);
+    font-family: var(--font-mono);
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.cmd-window button {
+    background: var(--kali-purple);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+}
+
+.cmd-window button:hover {
+    background: var(--kali-blue);
+}
+
+/* Code Editor Interface */
+.code-interface {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 900px;
+    height: 70vh;
+    background-color: var(--terminal-bg);
+    border: 2px solid var(--kali-purple);
+    box-shadow: 0 0 20px rgba(138, 87, 255, 0.5);
+    z-index: 100;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.code-interface.active {
+    display: block;
+}
+
+.code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    background: linear-gradient(90deg, var(--kali-purple), var(--kali-blue));
+    color: white;
+    font-weight: bold;
+}
+
+.code-controls button {
+    margin-left: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: none;
+}
+
+.code-controls button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.code-window {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 50px);
+}
+
+.code-area {
+    flex: 1;
+    background-color: var(--code-bg);
+    color: var(--text-color);
+    padding: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    overflow-y: auto;
+    border: none;
+    resize: none;
+    outline: none;
+}
+
+.code-output {
+    height: 50%;
+    border-top: 1px solid var(--kali-purple);
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.output-header {
+    padding: 0.5rem 1rem;
+    background: rgba(138, 87, 255, 0.2);
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+#codeResult {
+    padding: 1rem;
+    font-family: var(--font-mono);
+    white-space: pre-wrap;
+    overflow-y: auto;
+    height: calc(100% - 40px);
+}
+
+/* Command response colors */
+.cmd-success {
+    color: var(--success-color);
+}
+
+.cmd-error {
+    color: var(--error-color);
+}
+
+.cmd-warning {
+    color: #ffff55;
+}
+
+.cmd-info {
+    color: var(--kali-blue);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .overlay {
+        padding: 1.5rem;
+    }
+
+    h1.typing-text {
+        font-size: 2rem;
+    }
+
+    h2.subheading {
+        font-size: 1.2rem;
+    }
+
+    .dynamic-role {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    button {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .buttons,
+    .tools {
+        gap: 0.8rem;
+    }
+
+    .output-window {
+        min-height: 150px;
+        font-size: 0.8rem;
+    }
+
+    .cmd-interface,
+    .code-interface {
+        width: 95%;
+        height: 60vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .overlay {
+        padding: 1rem;
+    }
+
+    h1.typing-text {
+        font-size: 1.5rem;
+    }
+
+    h2.subheading {
+        font-size: 1rem;
+    }
+
+    .buttons,
+    .tools {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+    }
+
+    button {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .output-window {
+        min-height: 120px;
+    }
+
+    .cmd-interface,
+    .code-interface {
+        width: 98%;
+        height: 70vh;
+    }
+
+    #cmdOutput {
+        min-height: 200px;
+        max-height: 300px;
+    }
+
+    .code-window {
+        flex-direction: column;
+    }
+
+    .code-area,
+    .code-output {
+        width: 100%;
+    }
+
+    .code-output {
+        height: 40%;
+    }
+}
+
+
+.output-window.maximized {
+    max-height: none !important;
+    height: 70vh !important;
+}
+
+.terminal-content {
+    min-height: 150px;
+    padding: 1rem;
+    font-family: var(--font-mono);
+    white-space: pre-wrap;
+    overflow-y: auto;
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KaliTerm Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai-sublime.min.css">
+</head>
+
+<body>
+    <div class="matrix-background"></div>
+
+    <div class="overlay">
+        <div class="kali-header">
+            <img src="https://www.kali.org/images/kali-logo.svg" alt="Kali Logo" class="kali-logo">
+            <h1 class="typing-text">KaliTerm v3.1.4</h1>
+            <p>Created by <span>Sohal Ansari</span></p>
+        </div>
+        <h2 class="subheading">User: <span class="username">root@kali</span></h2>
+        <p class="dynamic-role" id="roleText">Penetration Tester • Security Researcher • Red Team</p>
+
+        <div class="buttons">
+            <button onclick="showSection('projects')"><i class="fas fa-folder-open"></i> Projects</button>
+            <button onclick="showSection('skills')"><i class="fas fa-terminal"></i> Skills</button>
+            <button onclick="showSection('contact')"><i class="fas fa-id-card"></i> Contact</button>
+            <button onclick="showSection('network')"><i class="fas fa-network-wired"></i> Network</button>
+        </div>
+
+        <div id="output" class="output-window">
+            <div class="terminal-header">
+                <span class="hostname">root@kali:~</span>
+                <div class="terminal-controls">
+                    <button onclick="clearOutput()"><i class="fas fa-trash"></i></button>
+                    <button onclick="maximizeOutput()"><i class="fas fa-expand"></i></button>
+                </div>
+            </div>
+            <div class="terminal-content" id="terminalContent">[ system ready ]</div>
+        </div>
+
+        <div class="tools">
+            <button onclick="showTool('console')"><i class="fas fa-terminal"></i> Kali Terminal</button>
+            <button onclick="showTool('metasploit')"><i class="fas fa-bug"></i> Metasploit</button>
+            <button onclick="showTool('nmap')"><i class="fas fa-search"></i> Nmap</button>
+            <button onclick="showTool('wireshark')"><i class="fas fa-traffic-light"></i> Wireshark</button>
+            <button onclick="showTool('burp')"><i class="fas fa-spider"></i> Burp Suite</button>
+            <button onclick="showTool('code')"><i class="fas fa-code"></i> Code Editor</button>
+        </div>
+    </div>
+
+    <!-- Kali Terminal Interface -->
+    <div id="cmdInterface" class="cmd-interface hidden">
+        <div class="cmd-header">
+            <span>root@kali: ~</span>
+            <div class="cmd-controls">
+                <button onclick="minimizeConsole()"><i class="fas fa-window-minimize"></i></button>
+                <button onclick="maximizeConsole()"><i class="fas fa-expand"></i></button>
+                <button onclick="closeConsole()"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <div id="cmdWindow" class="cmd-window">
+            <pre id="cmdOutput">Kali Linux 2023.3
+Last login: Wed Oct 18 14:23:21 UTC 2023 on pts/0
+root@kali:~# _</pre>
+            <div class="cmd-input-container">
+                <span class="prompt">root@kali:<span class="path">~</span>#</span>
+                <input type="text" id="cmdInput" autocomplete="off" spellcheck="false" />
+                <button onclick="runCommand()"><i class="fas fa-play"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Code Editor Interface -->
+    <div id="codeEditor" class="code-interface hidden">
+        <div class="code-header">
+            <span>Code Editor - exploit.py</span>
+            <div class="code-controls">
+                <button onclick="runCode()"><i class="fas fa-play"></i> Run</button>
+                <button onclick="saveCode()"><i class="fas fa-save"></i> Save</button>
+                <button onclick="closeCodeEditor()"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <div class="code-window">
+            <div id="editor" class="code-area"># Python Exploit Template
+                import socket
+                import sys
+
+                def exploit(target_ip, target_port):
+                try:
+                # Create a TCP/IP socket
+                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+                # Connect to the target
+                sock.connect((target_ip, target_port))
+
+                # Craft malicious payload
+                payload = b"A" * 1024 # Buffer overflow example
+
+                # Send payload
+                sock.send(payload)
+
+                # Receive response
+                response = sock.recv(1024)
+                print(f"Response: {response.decode()}")
+
+                except Exception as e:
+                print(f"Error: {str(e)}")
+                finally:
+                sock.close()
+
+                if __name__ == "__main__":
+                if len(sys.argv) != 3:
+                print("Usage: python exploit.py &lt;target_ip&gt; &lt;target_port&gt;")
+                sys.exit(1)
+
+                target_ip = sys.argv[1]
+                target_port = int(sys.argv[2])
+                exploit(target_ip, target_port)</div>
+            <div id="codeOutput" class="code-output">
+                <div class="output-header">Output</div>
+                <pre id="codeResult">[ Output will appear here ]</pre>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.15.2/ace.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
